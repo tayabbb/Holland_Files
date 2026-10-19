@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>holland files ★ фан-сайт о Томе Холланде</title>
+
+  <meta name="description" content="Неофициальный фан-сайт о Томе Холланде: галерея фотографий, подборки настроения и всё самое интересное об актёре.">
+
+  <meta property="og:title" content="holland files ★ фан-сайт о Томе Холланде">
+  <meta property="og:description" content="Неофициальный фан-сайт о Томе Холланде: галерея фотографий, подборки настроения и всё самое интересное об актёре.">
+  <meta property="og:image" content="img/mood-5.jpg">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23fbf9f1'/%3E%3Ctext x='32' y='45' font-size='42' text-anchor='middle' dominant-baseline='central' fill='%230d0d0d'%3E%E2%98%85%3C/text%3E%3C/svg%3E">
+
+  <!-- Шрифты Google Fonts (с кириллицей): гротеск для заголовков и тонкая антиква для обложки -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===================== Переменные и базовые стили ===================== */
+    :root {
+      --cream: #fbf9f1;
+      --cream-2: #f3efe2;
+      --black: #0d0d0d;
+      --grey: #6b6b66;
+      --red: #d2232a;
+      --blue: #1a7cf5;
+      --dark: #161514;
+
+      --sans: 'Inter Tight', 'Helvetica Neue', Helvetica, Inter, Arial, sans-serif;
+      --serif: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+
+    body {
+      font-family: var(--sans);
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--black);
+      background: var(--cream);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+
+    .container { width: min(1080px, 100% - 32px); margin-inline: auto; position: relative; }
+
+    /* ---------- Звёздочки, разбросанные по странице ---------- */
+    .star {
+      position: absolute;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1;
+      animation: twinkle 4s ease-in-out infinite;
+    }
+    .star:nth-of-type(2n) { animation-delay: -1.3s; }
+    .star:nth-of-type(3n) { animation-delay: -2.6s; }
+    @keyframes twinkle {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      50% { transform: scale(.82) rotate(12deg); }
+    }
+
+    /* ---------- Типографика разделов (как в эдитах) ---------- */
+    .section { padding: 110px 0; position: relative; }
+
+    .edit-by {
+      font-size: 17px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin-bottom: -4px;
+    }
+
+    .section-title {
+      font-weight: 800;
+      font-size: clamp(38px, 10.5vw, 92px);
+      line-height: .95;
+      letter-spacing: -0.055em;
+      text-transform: lowercase;
+    }
+    .section-title .s { font-size: .8em; letter-spacing: 0; vertical-align: .05em; }
+
+    .tagline {
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      margin: 18px 0 22px;
+    }
+
+    /* Нумерованный список «1.show up on time» */
+    .num-list {
+      list-style: none;
+      counter-reset: n;
+      font-weight: 700;
+      font-size: 17px;
+      line-height: 1.4;
+      letter-spacing: -0.02em;
+    }
+    .num-list li { counter-increment: n; display: flex; gap: 4px; }
+    .num-list li::before { content: counter(n) "."; min-width: 26px; text-align: right; }
+    .num-list span { font-weight: 500; color: var(--grey); }
+    .num-list.plain li { gap: 8px; margin-bottom: 4px; }
+    .num-list.plain li::before { content: none; }
+
+    /* Сетка фото без зазоров */
+    .strip { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .strip img { width: 100%; aspect-ratio: 1 / 1.08; object-fit: cover; }
+
+    /* Анимация появления при прокрутке */
+    .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* Кнопки-«пилюли» */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      transition: transform .2s, background .2s, color .2s;
+    }
+    .pill:hover { transform: translateY(-2px); }
+    .pill-blue { background: var(--blue); color: #fff; }
+    .pill-blue:hover { background: #0f66d6; }
+    .pill-white { background: transparent; color: #fff; border: 1.5px solid rgba(255, 255, 255, .8); }
+    .pill-white:hover { background: #fff; color: var(--black); }
+
+    /* ===================== 1. Header / навигация ===================== */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(251, 249, 241, .9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1.5px solid var(--black);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 62px; }
+
+    .logo {
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: -0.05em;
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: "★";
+      position: absolute;
+      right: -14px; top: -6px;
+      font-size: 11px;
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .nav-links a:hover::after { opacity: 1; }
+
+    .burger { display: none; background: none; border: 0; cursor: pointer; width: 40px; height: 40px; position: relative; }
+    .burger span, .burger::before, .burger::after {
+      content: "";
+      position: absolute;
+      left: 8px; right: 8px;
+      height: 2.5px;
+      background: var(--black);
+      transition: transform .3s, opacity .3s;
+    }
+    .burger::before { top: 12px; }
+    .burger span { top: 19px; }
+    .burger::after { top: 26px; }
+    .burger.open::before { transform: translateY(7px) rotate(45deg); }
+    .burger.open span { opacity: 0; }
+    .burger.open::after { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ===================== 2. Hero — обложка-коллаж ===================== */
+    .hero {
+      position: relative;
+      min-height: calc(100vh - 62px);
+      min-height: calc(100svh - 62px);
+      background: var(--dark);
+      color: #fff;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 16px;
+    }
+
+    /* Фото-фон обложки */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('img/mood-8.jpg') center / cover;
+      filter: brightness(.35) saturate(1.1);
+      transform: scale(1.05);
+    }
+
+    /* Полутоновые точки, как на референсе */
+    .halftone {
+      position: absolute;
+      width: 340px; height: 340px;
+      left: 50%; top: 16%;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(255, 255, 255, .55) 1.6px, transparent 2.2px) 0 0 / 11px 11px;
+      -webkit-mask: radial-gradient(circle, #000 35%, transparent 70%);
+              mask: radial-gradient(circle, #000 35%, transparent 70%);
+      opacity: .7;
+    }
+
+    /* Карточки коллажа */
+    .cut {
+      position: absolute;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, .55);
+      object-fit: cover;
+      transition: transform .4s;
+    }
+    .cut:hover { transform: scale(1.04) rotate(0deg) !important; }
+    .cut-1 { width: 230px; height: 260px; left: 8%; top: 22%; transform: rotate(-3deg); }
+    .cut-2 { width: 220px; height: 220px; right: 9%; top: 14%; transform: rotate(4deg); }
+    .cut-3 { width: 200px; height: 230px; left: 13%; bottom: 7%; transform: rotate(2deg); }
+    .cut-4 { width: 210px; height: 250px; right: 12%; bottom: 8%; transform: rotate(-4deg); }
+
+    .handle {
+      position: absolute;
+      top: 9%; left: 50%;
+      transform: translateX(-120%) rotate(-2deg);
+      z-index: 3;
+      font-size: 17px;
+      padding: 9px 22px;
+      background: var(--blue);
+      color: #fff;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+
+    .hero-text { position: relative; z-index: 4; text-align: center; }
+    .hero h1 {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: clamp(64px, 12vw, 150px);
+      line-height: .82;
+      letter-spacing: -0.035em;
+      text-shadow: 0 6px 30px rgba(0, 0, 0, .55);
+    }
+    .hero h1 i { display: block; }
+    .hero-sub {
+      font-weight: 500;
+      font-size: clamp(18px, 2.6vw, 26px);
+      letter-spacing: -0.02em;
+      margin: 22px 0 8px;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, .7);
+    }
+    .hero-small { font-size: 14px; opacity: .85; margin-bottom: 30px; }
+    .hero-buttons { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+
+    /* ===================== 3. Биография ===================== */
+    .bio-text {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px 44px;
+      margin-top: 34px;
+      font-size: 17px;
+    }
+    .bio-text b { font-weight: 700; }
+
+    .two-lists { display: grid; grid-template-columns: 1fr 1fr; gap: 0 44px; margin-top: 30px; }
+
+    /* ===================== 4. Фильмография ===================== */
+    .films-section { background: var(--cream-2); }
+
+    .filters { display: flex; flex-wrap: wrap; gap: 22px; margin: 4px 0 34px; }
+    .filter {
+      background: none;
+      border: 0;
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      color: var(--grey);
+      cursor: pointer;
+      padding-bottom: 2px;
+      border-bottom: 2px solid transparent;
+      transition: color .2s, border-color .2s;
+    }
+    .filter:hover { color: var(--black); }
+    .filter.active { color: var(--black); border-color: var(--black); }
+
+    .films {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 48px;
+      border-top: 1.5px solid var(--black);
+    }
+    .film {
+      display: grid;
+      grid-template-columns: 54px 1fr auto;
+      align-items: baseline;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(13, 13, 13, .18);
+      transition: padding .25s, background .25s;
+    }
+    .film:hover { padding-left: 8px; }
+    .film .year { font-weight: 500; color: var(--grey); font-size: 15px; }
+    .film h3 { font-weight: 700; font-size: 18px; letter-spacing: -0.025em; line-height: 1.2; }
+    .film .en { display: block; font-weight: 500; font-size: 13px; color: var(--grey); letter-spacing: 0; }
+    .film .role { font-size: 14px; font-weight: 500; text-align: right; }
+    .film .mstar { color: var(--red); font-size: 14px; }
+    .film.hidden { display: none; }
+
+    .legend { margin-top: 16px; font-size: 14px; color: var(--grey); }
+    .legend b { color: var(--red); }
+
+    /* ===================== 5. Факты (раскладка «keep going») ===================== */
+    .facts-section { padding: 0; }
+    .facts-grid { display: grid; grid-template-columns: 1fr 1fr; min-height: 760px; }
+    .facts-left { padding: 110px 48px 80px max(16px, calc((100vw - 1080px) / 2)); position: relative; }
+    .facts-left .num-list li { margin-bottom: 8px; }
+    .facts-left .mini { width: 70%; aspect-ratio: 4 / 3; object-fit: cover; margin: 6px 0 26px; }
+    .facts-photo { position: relative; }
+    .facts-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+    /* ===================== 6. Галерея ===================== */
+    .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 30px; }
+    .tab {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: 1.5px solid var(--black);
+      background: transparent;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+    .tab:hover { background: var(--cream-2); }
+    .tab.active { background: var(--black); color: var(--cream); }
+
+    .photos { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .photo { position: relative; overflow: hidden; cursor: zoom-in; background: var(--cream-2); }
+    .photo img { width: 100%; aspect-ratio: 1 / 1.08; object-fit: cover; transition: transform .5s; }
+    .photo:hover img { transform: scale(1.06); }
+    .photo figcaption {
+      position: absolute;
+      left: 12px; bottom: 10px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, .6);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity .3s, transform .3s;
+    }
+    .photo:hover figcaption { opacity: 1; transform: none; }
+    .photo.hidden { display: none; }
+    .photo.empty { cursor: default; }
+    .photo.empty figcaption { display: none; }
+
+    /* Заглушка, если файла нет */
+    .placeholder {
+      width: 100%;
+      aspect-ratio: 1 / 1.08;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      text-align: center;
+      border: 1px solid rgba(13, 13, 13, .08);
+      color: var(--grey);
+    }
+    .placeholder .ph-title { font-weight: 700; font-size: 18px; letter-spacing: -0.03em; color: var(--black); }
+    .placeholder code { font-size: 13px; }
+
+    /* Увеличение фото */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(10, 10, 10, .9);
+    }
+    .lightbox.open { display: flex; }
+    .lightbox figure { max-width: 620px; width: 100%; color: #fff; }
+    .lightbox img { width: 100%; max-height: 78vh; object-fit: contain; }
+    .lightbox figcaption { margin-top: 10px; font-weight: 600; letter-spacing: -0.02em; }
+    .lightbox-close {
+      position: absolute;
+      top: 18px; right: 22px;
+      width: 44px; height: 44px;
+      font-size: 26px;
+      color: var(--black);
+      background: var(--cream);
+      border: 0;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    /* ===================== 7. Footer ===================== */
+    .footer { background: var(--black); color: var(--cream); padding: 90px 0 34px; position: relative; overflow: hidden; }
+    .footer blockquote {
+      font-weight: 800;
+      font-size: clamp(34px, 5.6vw, 66px);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      max-width: 900px;
+    }
+    .footer blockquote em { font-family: var(--serif); font-weight: 500; letter-spacing: -0.02em; }
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(251, 249, 241, .25);
+      font-size: 14px;
+    }
+    .footer-links { display: flex; gap: 22px; }
+    .footer-links a { text-decoration: none; font-weight: 600; }
+    .footer-links a:hover { color: var(--red); }
+    .footer .small { opacity: .6; }
+
+    /* ===================== Адаптивность ===================== */
+    @media (max-width: 900px) {
+      .cut-1, .cut-3 { left: 3%; }
+      .cut-2, .cut-4 { right: 3%; }
+      .cut { width: 170px !important; height: 190px !important; }
+      .facts-grid { grid-template-columns: 1fr; }
+      .facts-left { padding: 90px 16px 50px; }
+      .facts-photo { height: 560px; }
+      .films { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .burger { display: block; }
+      .nav-links {
+        position: absolute;
+        top: 63px; left: 0; right: 0;
+        flex-direction: column;
+        gap: 0;
+        background: var(--cream);
+        border-bottom: 1.5px solid var(--black);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height .35s ease;
+      }
+      .nav-links.open { max-height: 300px; }
+      .nav-links a { display: block; padding: 14px 16px; font-size: 20px; }
+
+      .section { padding: 80px 0; }
+      .bio-text, .two-lists { grid-template-columns: 1fr; }
+      .photos, .strip { grid-template-columns: repeat(2, 1fr); }
+      .strip img:nth-child(3) { display: none; }
+      .film { grid-template-columns: 46px 1fr; }
+      .film .role { grid-column: 2; text-align: left; margin-top: -8px; color: var(--grey); }
+      .section .star { font-size: 20px !important; opacity: .8; }
+    }
+
+    @media (max-width: 480px) {
+      .cut { width: 130px !important; height: 150px !important; }
+      .cut-1 { top: 0; } .cut-2 { top: 0; }
+      .cut-3, .cut-4 { display: none; }
+      .handle { transform: translateX(-50%); top: 3%; font-size: 15px; }
+      .facts-left .mini { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===================== 1. Header / навигация ===================== -->
+  <header class="header">
+    <nav class="nav container">
+      <a href="#top" class="logo">holland files★</a>
+      <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false"><span></span></button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#bio">биография</a></li>
+        <li><a href="#films">фильмография</a></li>
+        <li><a href="#facts">факты</a></li>
+        <li><a href="#gallery">галерея</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- ===================== 2. Hero — обложка ===================== -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="halftone"></div>
+
+      <img class="cut cut-1" src="img/mood-5.jpg" alt="Том Холланд в костюме Человека-паука на пожарной лестнице">
+      <img class="cut cut-2" src="img/mood-4.jpg" alt="Маска Человека-паука и записка от тёти Мэй">
+      <img class="cut cut-3" src="img/mood-2.jpg" alt="Том Холланд уснул на учебниках">
+      <img class="cut cut-4" src="img/mood-9.jpg" alt="Записка на велосипеде">
+
+      <span class="handle">@hollandfiles</span>
+
+      <!-- Звёздочки -->
+      <span class="star" style="top:24%; left:31%; font-size:34px; color:#fff">★</span>
+      <span class="star" style="top:37%; right:30%; font-size:30px; color:#fff">☆</span>
+      <span class="star" style="bottom:26%; left:27%; font-size:26px; color:#fff">★</span>
+      <span class="star" style="bottom:18%; right:33%; font-size:36px; color:#fff">★</span>
+      <span class="star" style="top:12%; right:38%; font-size:22px; color:#fff">☆</span>
+      <span class="star" style="bottom:9%; left:46%; font-size:20px; color:#fff">☆</span>
+
+      <div class="hero-text">
+        <h1><i>всё о</i><i>томе холланде</i></h1>
+        <p class="hero-sub">твой дружелюбный соседский фан-сайт ★</p>
+        <p class="hero-small">биография, роли, факты и фото — в одном месте</p>
+        <div class="hero-buttons">
+          <a href="#bio" class="pill pill-blue">открыть досье</a>
+          <a href="#gallery" class="pill pill-white">смотреть фото</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 3. Биография ===================== -->
+    <section class="section" id="bio">
+      <span class="star" style="top:70px; right:9%; font-size:44px">★</span>
+      <span class="star" style="top:46%; left:3%; font-size:28px">☆</span>
+      <span class="star" style="bottom:60px; right:5%; font-size:30px">☆</span>
+
+      <div class="container">
+        <p class="edit-by">edit by @hollandfiles</p>
+        <h2 class="section-title">биография<span class="s">★</span></h2>
+        <p class="tagline">из лондонского пригорода — в костюм человека-паука.</p>
+
+        <div class="strip reveal">
+          <img src="img/mood-1.jpg" alt="Вид с пожарной лестницы на закате">
+          <img src="img/mood-2.jpg" alt="Том Холланд уснул на учебниках">
+          <img src="img/mood-6.jpg" alt="Клетчатая пижама">
+        </div>
+
+        <div class="bio-text reveal">
+          <p><b>Томас Стэнли Холланд</b> родился 1 июня 1996 года в Кингстоне-на-Темзе, пригороде Лондона. Его мама — фотограф Никола Фрост, папа — комик и писатель Доминик Холланд. У Тома три младших брата: Сэм, Гарри и Пэдди.</p>
+          <p>В детстве Том занимался хип-хоп-танцами и гимнастикой. Именно танцы привели его в театр, а в 2016 году он впервые сыграл Питера Паркера и в 19 лет стал самым молодым актёром, сыгравшим Человека-паука в большом кино.</p>
+        </div>
+
+        <div class="two-lists reveal">
+          <ol class="num-list plain">
+            <li>1996 <span>— рождение в Кингстоне-на-Темзе</span></li>
+            <li>2008 <span>— мюзикл «Билли Эллиот» в Вест-Энде</span></li>
+            <li>2012 <span>— дебют в кино, «Невозможное»</span></li>
+            <li>2016 <span>— первый раз в роли Человека-паука</span></li>
+          </ol>
+          <ol class="num-list plain">
+            <li>2017 <span>— премия BAFTA «Восходящая звезда»</span></li>
+            <li>2021 <span>— «Человек-паук: Нет пути домой»</span></li>
+            <li>2024 <span>— Ромео в «Ромео и Джульетте» в Лондоне</span></li>
+            <li>2026 <span>— «Одиссея» Нолана и «Человек-паук: Новый день»</span></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 4. Фильмография ===================== -->
+    <section class="section films-section" id="films">
+      <span class="star" style="top:90px; right:12%; font-size:36px">☆</span>
+      <span class="star" style="top:150px; right:7%; font-size:22px">★</span>
+      <span class="star" style="bottom:70px; left:4%; font-size:40px">★</span>
+
+      <div class="container">
+        <p class="edit-by">edit by @hollandfiles</p>
+        <h2 class="section-title">фильмография<span class="s">★</span></h2>
+        <p class="tagline">каждая роль — новый уровень.</p>
+
+        <div class="filters">
+          <button class="filter active" data-filter="all">все</button>
+          <button class="filter" data-filter="marvel">marvel</button>
+          <button class="filter" data-filter="other">другие проекты</button>
+        </div>
+
+        <ul class="films" id="films-list">
+          <!-- Строки создаются скриптом из массива films -->
+        </ul>
+        <p class="legend"><b>★</b> — фильмы киновселенной Marvel</p>
+      </div>
+    </section>
+
+    <!-- ===================== 5. Интересные факты ===================== -->
+    <section class="facts-section" id="facts">
+      <div class="facts-grid">
+        <div class="facts-left">
+          <span class="star" style="top:60px; right:12%; font-size:34px">★</span>
+          <span class="star" style="bottom:40px; right:16%; font-size:26px">☆</span>
+
+          <p class="edit-by">edit by @hollandfiles</p>
+          <h2 class="section-title">факты<span class="s">★</span></h2>
+          <p class="tagline">то, что знают не все.</p>
+
+          <img class="mini reveal" src="img/mood-3.jpg" alt="Костюм Человека-паука на кровати">
+
+          <ol class="num-list reveal">
+            <li>все сальто в фильмах делал сам — спасибо гимнастике</li>
+            <li>в детстве Тому поставили дислексию</li>
+            <li>главный «спойлерщик» Marvel: ему выдавали только свои сцены</li>
+            <li>на промотуре «Войны бесконечности» к нему «приставили» Камбербэтча</li>
+            <li>вместе с семьёй основал фонд The Brothers Trust</li>
+            <li>в 2024 году запустил безалкогольное пиво Bero</li>
+            <li>озвучил эльфа Иэна в мультфильме «Вперёд»</li>
+            <li>сыграл Нейтана Дрейка в экранизации игры Uncharted</li>
+          </ol>
+        </div>
+        <div class="facts-photo">
+          <img src="img/mood-5.jpg" alt="Том Холланд на съёмках на пожарной лестнице">
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 6. Галерея ===================== -->
+    <section class="section" id="gallery">
+      <span class="star" style="top:80px; right:10%; font-size:40px">★</span>
+      <span class="star" style="top:170px; right:20%; font-size:24px">☆</span>
+      <span class="star" style="top:44%; left:2%; font-size:30px">★</span>
+
+      <div class="container">
+        <p class="edit-by">edit by @hollandfiles</p>
+        <h2 class="section-title">галерея<span class="s">★</span></h2>
+        <p class="tagline">нажми на фото, чтобы увеличить.</p>
+
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="all">все</button>
+          <button class="tab" data-tab="selfie">селфи</button>
+          <button class="tab" data-tab="full">в полный рост</button>
+          <button class="tab" data-tab="shirtless">shirtless</button>
+          <button class="tab" data-tab="spidey">spider-man</button>
+        </div>
+
+        <div class="photos" id="photos">
+          <!-- Фото создаются скриптом из массива photos -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Окно просмотра фото -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">×</button>
+    <figure>
+      <img id="lightboxImg" src="" alt="">
+      <figcaption id="lightboxCap"></figcaption>
+    </figure>
+  </div>
+
+  <!-- ===================== 7. Footer ===================== -->
+  <footer class="footer">
+    <span class="star" style="top:60px; right:8%; font-size:52px; color:var(--cream)">★</span>
+    <span class="star" style="top:150px; right:18%; font-size:26px; color:var(--cream)">☆</span>
+    <div class="container">
+      <blockquote>с большой фан-базой приходит <em>большая ответственность</em>★</blockquote>
+      <div class="footer-row">
+        <div class="footer-links">
+          <a href="#bio">биография</a>
+          <a href="#films">фильмография</a>
+          <a href="#facts">факты</a>
+          <a href="#gallery">галерея</a>
+        </div>
+        <p class="small">неофициальный фан-сайт · все права на фото принадлежат их авторам · © 2026</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ===================== Данные: фильмография ===================== */
+    const films = [
+      { year: 2012, ru: 'Невозможное', en: 'The Impossible', role: 'Лукас', type: 'other' },
+      { year: 2015, ru: 'В сердце моря', en: 'In the Heart of the Sea', role: 'Томас Никерсон', type: 'other' },
+      { year: 2016, ru: 'Затерянный город Z', en: 'The Lost City of Z', role: 'Джек Фосетт', type: 'other' },
+      { year: 2016, ru: 'Первый мститель: Противостояние', en: 'Captain America: Civil War', role: 'Питер Паркер', type: 'marvel' },
+      { year: 2017, ru: 'Человек-паук: Возвращение домой', en: 'Spider-Man: Homecoming', role: 'Питер Паркер', type: 'marvel' },
+      { year: 2018, ru: 'Мстители: Война бесконечности', en: 'Avengers: Infinity War', role: 'Питер Паркер', type: 'marvel' },
+      { year: 2019, ru: 'Мстители: Финал', en: 'Avengers: Endgame', role: 'Питер Паркер', type: 'marvel' },
+      { year: 2019, ru: 'Человек-паук: Вдали от дома', en: 'Spider-Man: Far From Home', role: 'Питер Паркер', type: 'marvel' },
+      { year: 2020, ru: 'Вперёд', en: 'Onward', role: 'Иэн Лайтфут (голос)', type: 'other' },
+      { year: 2020, ru: 'Дьявол всегда здесь', en: 'The Devil All the Time', role: 'Арвин Расселл', type: 'other' },
+      { year: 2021, ru: 'По наклонной', en: 'Cherry', role: 'Черри', type: 'other' },
+      { year: 2021, ru: 'Человек-паук: Нет пути домой', en: 'Spider-Man: No Way Home', role: 'Питер Паркер', type: 'marvel' },
+      { year: 2022, ru: 'Анчартед: На картах не значится', en: 'Uncharted', role: 'Нейтан Дрейк', type: 'other' },
+      { year: 2023, ru: 'Переполненная комната (сериал)', en: 'The Crowded Room', role: 'Дэнни Салливан', type: 'other' },
+      { year: 2026, ru: 'Одиссея', en: 'The Odyssey', role: 'Телемах', type: 'other' },
+      { year: 2026, ru: 'Человек-паук: Новый день', en: 'Spider-Man: Brand New Day', role: 'Питер Паркер', type: 'marvel' }
+    ];
+
+    document.getElementById('films-list').innerHTML = films.map(f => `
+      <li class="film ${f.type}" data-type="${f.type}">
+        <span class="year">${f.year}</span>
+        <h3>${f.ru}${f.type === 'marvel' ? ' <span class="mstar">★</span>' : ''}<span class="en">${f.en}</span></h3>
+        <span class="role">${f.role}</span>
+      </li>`).join('');
+
+    // Фильтр фильмографии
+    document.querySelectorAll('.filter').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.filter;
+        document.querySelectorAll('.film').forEach(el => {
+          el.classList.toggle('hidden', f !== 'all' && el.dataset.type !== f);
+        });
+      });
+    });
+
+    /* ===================== Данные: галерея ===================== */
+    const photos = [
+      { src: 'img/mood-5.jpg', cat: 'spidey', cap: 'на съёмках' },
+      { src: 'img/mood-3.jpg', cat: 'spidey', cap: 'перерыв' },
+      { src: 'img/mood-4.jpg', cat: 'spidey', cap: 'записка от Мэй' },
+      { src: 'img/mood-8.jpg', cat: 'spidey', cap: 'костюм' },
+      { src: 'img/mood-2.jpg', cat: 'spidey', cap: 'уснул над учебниками' },
+      { src: 'img/mood-9.jpg', cat: 'spidey', cap: 'это твой велик?' },
+      { src: 'img/mood-1.jpg', cat: 'spidey', cap: 'вид из Квинса' },
+      { src: 'img/mood-6.jpg', cat: 'spidey', cap: 'та самая пижама' },
+      { src: 'img/mood-7.jpg', cat: 'spidey', cap: 'кто-то был здесь' },
+      { src: 'img/mood-10.jpg', cat: 'spidey', cap: 'spidey #10' },
+      { src: 'img/mood-11.jpg', cat: 'spidey', cap: 'spidey #11' },
+      { src: 'img/mood-12.jpg', cat: 'spidey', cap: 'spidey #12' }
+    ];
+
+    // ===== НАСТРОЙКА: сколько фото в каждой вкладке =====
+    // Поменяй число и положи в папку img/ файлы с номерами по порядку:
+    // selfie-1.jpg, selfie-2.jpg, ... full-1.jpg, ... shirtless-1.jpg, ...
+    const photoCount = { selfie: 8, full: 8, shirtless: 4 };
+    const captions   = { selfie: 'селфи', full: 'в полный рост', shirtless: 'лето ☀' };
+
+    for (const cat in photoCount) {
+      for (let i = 1; i <= photoCount[cat]; i++) {
+        photos.push({ src: `img/${cat}-${i}.jpg`, cat: cat, cap: `${captions[cat]} #${i}` });
+      }
+    }
+
+    const photosBox = document.getElementById('photos');
+    photosBox.innerHTML = photos.map(p => `
+      <figure class="photo" data-cat="${p.cat}">
+        <img src="${p.src}" alt="Том Холланд: ${p.cap}" loading="lazy">
+        <figcaption>${p.cap}</figcaption>
+      </figure>`).join('');
+
+    // Если файла нет — показываем заглушку с именем файла
+    photosBox.querySelectorAll('img').forEach(img => {
+      img.addEventListener('error', () => {
+        const ph = document.createElement('div');
+        ph.className = 'placeholder';
+        ph.innerHTML = `<span class="ph-title">место для фото ☆</span><code>${img.getAttribute('src')}</code>`;
+        img.closest('.photo').classList.add('empty');
+        img.replaceWith(ph);
+      });
+    });
+
+    // Вкладки галереи
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const cat = tab.dataset.tab;
+        document.querySelectorAll('.photo').forEach(p => {
+          p.classList.toggle('hidden', cat !== 'all' && p.dataset.cat !== cat);
+        });
+      });
+    });
+
+    // Увеличение фото по клику
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImg');
+    const lbCap = document.getElementById('lightboxCap');
+
+    photosBox.addEventListener('click', e => {
+      const fig = e.target.closest('.photo');
+      if (!fig || fig.classList.contains('empty')) return;
+      const img = fig.querySelector('img');
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      lbCap.textContent = fig.querySelector('figcaption').textContent + ' ★';
+      lightbox.classList.add('open');
+    });
+
+    const closeLightbox = () => lightbox.classList.remove('open');
+    document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    /* ===================== Меню-бургер ===================== */
+    const burger = document.getElementById('burger');
+    const navLinks = document.getElementById('navLinks');
+    burger.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open);
+    });
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      burger.classList.remove('open');
+    }));
+
+    /* ===================== Появление блоков при прокрутке ===================== */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
