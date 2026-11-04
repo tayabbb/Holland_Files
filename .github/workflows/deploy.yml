@@ -1,9 +1,10 @@
-# Workflow автоматической публикации статического сайта на GitHub Pages.
+# Workflow: проверка HTML/CSS линтерами и публикация сайта на GitHub Pages
 name: Deploy static site
 
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:        # ручной запуск кнопкой Run workflow
 
 permissions:
   contents: read
@@ -11,7 +12,28 @@ permissions:
   id-token: write
 
 jobs:
+  # Задание 1. Проверка кода
+  lint:
+    name: Lint HTML and CSS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check HTML (HTMLHint)
+        run: npx --yes htmlhint@1 index.html
+
+      - name: Check CSS (Stylelint)
+        run: npx --yes stylelint@16 style.css
+
+  # Задание 2. Публикация — только если проверка прошла успешно
   deploy:
+    needs: lint
     runs-on: ubuntu-latest
     environment:
       name: github-pages
