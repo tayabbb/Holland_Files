@@ -1,55 +1,90 @@
-# Workflow: проверка HTML/CSS линтерами и публикация сайта на GitHub Pages
+
+# Название workflow, которое отображается во вкладке Actions на GitHub
 name: Deploy static site
 
+# Определяем события, при которых будет запускаться workflow
 on:
+  # Автоматический запуск при отправке изменений в ветку main
   push:
     branches: [ main ]
-  workflow_dispatch:        # ручной запуск кнопкой Run workflow
 
+  # Возможность вручную запустить workflow кнопкой Run workflow
+  workflow_dispatch:
+
+# Настраиваем разрешения, которые нужны workflow для выполнения задач
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: read    # Разрешаем читать содержимое репозитория
+  pages: write      # Разрешаем публиковать сайт на GitHub Pages
+  id-token: write   # Разрешаем создавать ID-токен для безопасной публикации
 
+# Описываем задачи, которые должен выполнить workflow
 jobs:
-  # Задание 1. Проверка кода
+
+  # Задание 1. Проверка HTML и CSS на ошибки
   lint:
-    name: Lint HTML and CSS
+    name: Lint HTML and CSS  # Название задачи в интерфейсе GitHub Actions
+
+    # Указываем операционную систему виртуального компьютера
     runs-on: ubuntu-latest
+
+    # Последовательность действий для проверки кода
     steps:
+
+      # Шаг 1. Загружаем файлы нашего репозитория в виртуальную среду
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Шаг 2. Устанавливаем Node.js
+      # Он необходим для запуска инструментов проверки HTML и CSS
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 22  # Используем Node.js версии 22
 
+      # Шаг 3. Проверяем HTML-файл index.html с помощью HTMLHint
+      # npx запускает инструмент, а --yes автоматически подтверждает его использование
       - name: Check HTML (HTMLHint)
         run: npx --yes htmlhint@1 index.html
 
+      # Шаг 4. Проверяем CSS-файл style.css с помощью Stylelint
+      # Проверяются правила оформления и корректность CSS-кода
       - name: Check CSS (Stylelint)
         run: npx --yes stylelint@16 style.css
 
-  # Задание 2. Публикация — только если проверка прошла успешно
+  # Задание 2. Публикация сайта на GitHub Pages
+  # Эта задача выполняется только после успешного завершения lint
   deploy:
-    needs: lint
+    needs: lint  # Зависимость от задачи проверки кода
+
+    # Используем виртуальную среду Ubuntu
     runs-on: ubuntu-latest
+
+    # Указываем окружение, в котором будет выполняться публикация
     environment:
-      name: github-pages
+      name: github-pages  # Название окружения GitHub Pages
+
+      # Получаем ссылку на опубликованный сайт из результата deployment
       url: ${{ steps.deployment.outputs.page_url }}
+
+    # Последовательность действий для публикации сайта
     steps:
+
+      # Шаг 1. Повторно загружаем файлы репозитория
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Шаг 2. Настраиваем окружение GitHub Pages
+      # Подготавливаем GitHub Pages к публикации сайта
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      # Шаг 3. Подготавливаем файлы сайта для публикации
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: '.'  # Загружаем содержимое корневой папки репозитория
 
+      # Шаг 4. Публикуем подготовленные файлы на GitHub Pages
       - name: Deploy to GitHub Pages
-        id: deployment
+        id: deployment  # Идентификатор шага для получения результата публикации
         uses: actions/deploy-pages@v4
